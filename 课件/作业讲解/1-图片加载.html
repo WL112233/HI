@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<img src="./img/img.png" id="imgs" />
+		<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528881870797&di=b0d00a135bf532b8634a3e21897ac7c2&imgtype=0&src=http%3A%2F%2Fs4.51cto.com%2Fwyfs02%2FM01%2F81%2F12%2FwKiom1dFx2Gw6mnLAAFrBjlCHo4068.jpg-wh_600x-s_1853055562.jpg">
+		<p>hello</p>
+		<script>
+			// 标签中img，在进入页面时候，需要加载图片资源，解析图片
+			// 加载图片是需要时间，不因为加载图片就不解析下面的标签
+			console.log(imgs.offsetWidth);
+
+			// 页面资源加载完之后触发window.onload
+
+			window.onload = function (){
+				console.log('资源加载完了');	
+				console.log(imgs.offsetWidth);
+			}
+
+		</script>
+	</body>
+</html>

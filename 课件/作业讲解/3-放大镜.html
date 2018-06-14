@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	#box{
+		width: 900px;
+		height: 500px;
+		background: url(img/bg.png) no-repeat;
+		position: relative;
+	}
+	#left{
+		width: 335px;
+		height: 188px;
+		position: absolute;
+		left: 148px;
+		top: 155px;
+		-overflow: hidden;
+		cursor: move;
+	}
+	#imgs1{
+		width: 100%;
+		height: 100%;
+	}
+	#right{
+		width: 200px;
+		height: 200px;
+		overflow: hidden;
+		position: absolute;
+		left: 580px;
+		top: 150px;
+		-display: none;
+		visibility: hidden;
+	}
+	#mask{
+		width: 160px;
+		height: 160px;
+		background: #000;
+		opacity: .5;
+		position: absolute;
+		visibility: hidden;
+		left: 0;
+		top: 0;
+		-display: none;
+	}
+	#border{
+		width: 184px;
+		height: 184px;
+		position: absolute;
+		left: 7px;
+		top: 7px;
+		overflow: hidden;
+	}
+	#img2{
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="left">
+			<img src="img/img.png" id="imgs1">
+			<div id="mask"></div>
+		</div>
+		<div id="right">
+			<img src="img/img.png" id="img2">
+		</div>
+	</div>
+	<script type="text/javascript">
+
+		function getRect(element){
+			return element.getBoundingClientRect();
+		}
+
+		window.onload = function (){
+			//1 算出左边mask的宽高
+
+			// 右边大图的宽高
+			var rightBigImgWidth = img2.offsetWidth;
+			var rightBigImgHeight = img2.offsetHeight;
+			// 右边可视区的宽高
+			var rightClientWidth = right.clientWidth;
+			var rightClientHeight = right.clientHeight;
+
+			// 左边图片的宽高
+			var leftSmallImgWidth = imgs1.offsetWidth;
+			var leftSmallImgHeight = imgs1.offsetHeight;
+
+			console.log(rightClientWidth);
+
+			mask.style.width = rightClientWidth/rightBigImgWidth * leftSmallImgWidth + 'px';
+			mask.style.height = rightClientHeight/rightBigImgHeight * leftSmallImgHeight + 'px';
+
+			var leftRect = getRect(left);
+			var maskWidth = mask.offsetWidth;
+			var maskHeight = mask.offsetHeight;
+
+			// 3. 写出边界
+			var minX = 0,
+				minY = 0,
+				maxX = left.clientWidth - maskWidth,
+				maxY = left.clientHeight - maskHeight;
+
+			// 4. 图片能走的最大值
+			var rightBigImgMaxX = rightBigImgWidth - rightClientWidth;
+			var rightBigImgMaxY = rightBigImgHeight - rightClientHeight;
+
+			right.style.display = 'none';
+			mask.style.display = 'none';
+
+			// 2. 移入左边区域上，让mask跟随鼠标走
+
+			left.onmouseenter = function (){	
+				mask.style.display = 'block';	
+				right.style.display = 'block';	
+				mask.style.visibility = 'visible';	
+				right.style.visibility = 'visible';	
+			}
+			left.onmouseleave = function (){	
+				mask.style.display = 'none';	
+				right.style.display = 'none';	
+			}
+
+			left.onmousemove = function (ev){
+				
+				// 鼠标位置减去left元素到浏览器左边和上边的距离
+				// mask相对left定位的
+
+				var l = ev.clientX - leftRect.left - maskWidth/2;
+				var t = ev.clientY - leftRect.top - maskHeight/2;
+
+				if(l < minX) l = minX;
+				if(t< minY) t = minY;
+				if(l > maxX) l = maxX;
+				if(t > maxY) t = maxY;
+
+				mask.style.left = l + 'px';	
+				mask.style.top = t + 'px';	
+
+				img2.style.left = -l/maxX * rightBigImgMaxX + 'px';
+				img2.style.top = -t/maxY * rightBigImgMaxY + 'px';
+
+			}
+
+		}
+
+	</script>
+</body>
+</html>

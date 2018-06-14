@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+<link href="css/index.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="wrap" id="box">
+		<header class="head clear">
+			<h1 class="left">
+				<a class="logo" href="javascript:;"></a>
+				|
+				<a href="javascript:;">邮箱</a>
+			</h1>
+			<nav  class="left">
+				<a href="javascript:;">邮箱首页</a>|<a href="javascript:;">设置</a>
+			</nav>
+			<p class="hint1 left"></p>
+			<p class="hint2 left"></p>
+		</header>
+		<div class="section clear">
+			<div class="fuList left">
+				<ul class="fuListBig">
+					<li class="writeLetter">写信</li>
+					<li class="collectLetter">收信</li>
+					<li class="address">通讯录</li>
+				</ul>
+				<ul class="fuListSmall">
+					<li class="inbox active">收件箱</li>
+					<li class="StarMail">星标邮件</li>
+					<li class="groupMail">群邮件</li>
+					<li class="draftBox">草稿箱</li>
+					<li class="beenSent">已发送</li>
+					<li class="beenDel hover">已删除<a class="clearBtn" href="#">清空</a></li>
+					<li class="dustbin">垃圾箱<a class="clearBtn" href="#">清空</a></li>
+				</ul>
+			</div>
+			<div class="tBody left">
+				<div class="title">
+					收件箱(共96封,其中<a href="javascript:;">未读邮件</a>9封)
+				</div>
+				<div class="emailFunctions">
+					<a id="delet" href="javascript:;">删除</a>
+					<a href="javascript:;">彻底删除</a>
+					<a href="javascript:;">转发</a>
+					<a href="javascript:;">举报</a>
+					<a href="javascript:;">全部标为已读</a>
+					<a class="selectIcon" href="javascript:;">标记为...</a>
+					<a class="selectIcon" href="javascript:;">移动到...</a>
+				</div>
+				<div class="emailList" id="emailCheckList">
+					<header class="emailHead">
+						<input type="checkbox" />
+						<p><span></span><span></span></p>
+					</header>
+					<ul class="emailListUl">
+						 <li>
+							<input type="checkbox">
+							<div>
+								<span>秒味课堂1</span>
+								<span>2015-12-30</span>
+							</div>
+							<p>JS拖拽的进一步学习,移动与拉伸JS拖拽的进一步练习</p>
+						</li>
+						<li>
+							<input type="checkbox">
+							<div>
+								<span>秒味课堂1</span>
+								<span>2015-12-30</span>
+							</div>
+							<p>JS拖拽的进一步学习,移动与拉伸JS拖拽的进一步练习</p>
+						</li>
+						<li>
+							<input type="checkbox">
+							<div>
+								<span>秒味课堂1</span>
+								<span>2015-12-30</span>
+							</div>
+							<p>JS拖拽的进一步学习,移动与拉伸JS拖拽的进一步练习</p>
+						</li>
+						<li>
+							<input type="checkbox">
+							<div>
+								<span>秒味课堂1</span>
+								<span>2015-12-30</span>
+							</div>
+							<p>JS拖拽的进一步学习,移动与拉伸JS拖拽的进一步练习</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+			<div id="hint3" style="display:none;">选中2封邮件</div>
+		</body>
+		
+		
+		
+		<script>
+			window.onload = function(){//利用map方法和es6生成HTML结构  
+            var html = list.map(function(item){  
+                return '<li>  
+                        <input type="checkbox" data-id = "${item.id}">  
+                        <div>  
+                            <span>${item.caption}</span>  
+                            <span>${item.time}</span>  
+                        </div>  
+                        <p>${item.desc}</p>  
+						</li>'  
+            }).join(' ');  
+            var oEmailListUl = document.querySelector('.emailListUl');  
+            oEmailListUl.innerHTML = html;  
+              
+            var checkedAll = document.querySelector('.emailHead input');  
+            var checkSingle = oEmailListUl.querySelectorAll('input');  
+            var singleLen = checkSingle.length;  
+            var n = 0;  
+            var isAll = true;  
+            checkedAll.onclick = function(){//全选效果的实现  
+                for(var i=0; i<singleLen; i++){  
+                    checkSingle[i].checked = this.checked;  
+                }  
+  
+                    for(var j=0; j<singleLen;j++){//单选效果的实现  
+                        if(this.checked) {//如果取消选择，则将父级的颜色恢复为未选中状态的颜色  
+                            checkSingle[j].parentNode.style.background = '#f2f6f9';  
+                        }else{//如果选择，则将父级li的颜色变为选中的颜色  
+  
+                                checkSingle[j].parentNode.style.background = '';  
+                        }  
+  
+                    }  
+  
+            }  
+            for(var i=0; i<singleLen;i++){  
+                checkSingle[i].onclick = function(){  
+  
+                    if(!this.checked){//单击单选按钮时，如果是取消选择，则让全选的按钮也为未选中状态，否则的话如果是让其变为选中状态时，先要看看其他的单选按钮是不是也都是选中状态，如果是的话，就让全选按钮也成为选中状态  
+                        checkedAll.checked = false;  
+                        this.parentNode.style.background = '';  
+                    }else{  
+                        this.parentNode.style.background = '#f2f6f9';  
+                        for(var j=0; j<singleLen;j++){  
+                            if(!checkSingle[j].checked){  
+                                isAll = false;//只要有一个单选按钮是未选中状态，那么isAll就为false，所以全选按钮就不能是选中状态，如果，都是选中状态，那么，这段代码不执行，所以isAll还是true， 那么全选按钮就变为选中状态  
+                            }  
+                        }  
+  
+                        if(isAll){  
+  
+                            checkedAll.checked = true;  
+                        }  
+                    }  
+  
+                }  
+            }  
+            function checkInput(){//将单选按钮中是选中状态的放入一个数组中  
+                var arr = [];  
+                for(var i=0; i<singleLen; i++){  
+                    if(checkSingle[i].checked){  
+                        arr.push(checkSingle[i]);  
+                    }  
+                }  
+                return arr;  
+            }  
+            //删除数据和结构  
+            var oDelet = document.querySelector('#delet');  
+            oDelet.onclick = function(){  
+                del();  
+  
+            }  
+            function  del(){  
+                var select = checkInput();  
+                for(var i=0; i<select.length;i++){//删除HTML结构中选中的input的父级  
+                    select[i].parentNode.remove();  
+                    //删除json中的数据  
+                    for(var j=0; j<list.length;j++){  
+                        if(list[j].id ==select[i].dataset.id){  
+                            list.splice(j,1);  
+                        }  
+                    }  
+                }  
+            }  
+            var tip = document.querySelector('#hint3');  
+            var aLi = document.querySelectorAll('.emailListUl li');  
+            var delx = document.querySelector('.beenDel');  
+  
+            var m = 0;  
+            for(var i=0; i<aLi.length; i++){  
+                aLi[i].onmousedown = function(){  
+                    var isTr = false;  
+                    var chInput = this.querySelector('input');  
+                    if(!chInput.checked){  
+                        return;  
+                    }  
+                    tip.style.display = 'block';  
+                    tip.innerHTML = `选中${checkInput().length-m}封邮件`;//放入到数组中的数据是总共的数据，所以要先减去，上次删除的数据，才是这次要删除的数据  
+                    document.onmousemove = function(ev){  
+                        var ev = event||ev;  
+                        ev.preventDefault();//默认情况下，选中状态拖拽时，会选中浏览器中的文字，所以要取消默认事件  
+                        tip.style.left = ev.clientX + 1+ 'px';  
+                        tip.style.top = ev.clientY + 1+'px';  
+                        if(collision(tip,delx)){  
+                            isTr = true;  
+                        }  
+                    }  
+                    document.onmouseup = function(ev){  
+                        tip.style.display = 'none';  
+                        if(isTr){  
+                            del();  
+                            m=`${checkInput().length}`;//记录总共删除的数据  
+                        }  
+                        document.onmousemove = document.onmouseup = null;  
+                    }  
+                }  
+            }  
+  
+        }  
+		
+		</script>
+		
+	</html>
+

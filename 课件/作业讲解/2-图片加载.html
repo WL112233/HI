@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<img src="" id="baidu" />
+		<img src="./img/img.png" id="imgs" />
+		
+		<p>hello</p>
+		<script>
+			
+			// 预加载，预先把图片加载进来，加载进来之后，在给到页面中img，呈现在页面中
+
+			// 内置的构造函数，常见img标签
+			var img = new Image();
+
+			img.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528881870797&di=792e9c651467a213e3ad56863fe17366&imgtype=0&src=http%3A%2F%2Feasyread.ph.126.net%2FCKnuD2UXjcZvcCT3n50RxA%3D%3D%2F7806646906419299588.jpg'
+
+			// 怎么知道图片加载完成了呢？
+
+			img.onload = function (){
+				console.log('加载完成');
+				baidu.src = img.src;	
+			}
+
+		</script>
+	</body>
+</html>

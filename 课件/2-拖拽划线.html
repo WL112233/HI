@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			.miaov {
+				width: 0px;
+				height: 0px;
+				border: 1px dashed #000;
+				background: yellow;
+				opacity: .5;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+		<script>
+			// 在页面中画方块
+
+			// 解决问题
+		</script>
+	</head>
+
+	<body>
+		<!-- <div class="miaov"></div> -->
+		<script>
+			document.onmousedown = function (e){
+				var newDiv = document.createElement('div');
+				newDiv.classList.add('miaov');
+				document.body.appendChild(newDiv);
+				var downDisX = e.clientX;
+				var downDisY = e.clientY;
+				newDiv.style.left = downDisX + 'px';
+				newDiv.style.top = downDisY + 'px';
+
+				document.onmousemove = function (e){
+					// 元素的宽高 = 鼠标移动过程中的位置 - 鼠标摁下的位置
+					console.log(e.clientX - downDisX);
+					newDiv.style.width = Math.abs(e.clientX - downDisX) + 'px';
+					newDiv.style.height = Math.abs(e.clientY - downDisY) + 'px';
+
+					// 控制left和top 和鼠标一致
+					newDiv.style.left = Math.min(e.clientX,downDisX) + 'px';
+					newDiv.style.top = Math.min(e.clientY,downDisY)+ 'px';
+				}
+				document.onmouseup = function (e){
+					document.onmousemove = document.onmouseup = null;
+				}
+			}
+		</script>
+	</body>
+</html>
